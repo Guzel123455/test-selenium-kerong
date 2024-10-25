@@ -9,6 +9,7 @@ from config import name_zone_text
 from browser_setup import browser
 
 def open_lock_all(browser):
+    print("Test open_lock_all")
     wait = WebDriverWait(browser, 20)
 
     # открыть мониторинг
@@ -46,8 +47,8 @@ def open_lock_all(browser):
         if request.response:
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
-                print(
-                    f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print()
  #               pytest.fail()
 
 def test_open_lock_all(browser):

@@ -15,6 +15,7 @@ def click_empty_space(browser):
     actions.move_by_offset(0, 0).click().perform()
 
 def open_lock_some(browser):
+    print("Test open_lock_some")
     wait = WebDriverWait(browser, 20)
     actions = ActionChains(browser)
 
@@ -52,15 +53,15 @@ def open_lock_some(browser):
 
         # Открыть
         browser.find_element(By.XPATH, "(//button[text()= 'Открыть'])[2]").click()
-        time.sleep(5)
+        time.sleep(1)
 
         actions.send_keys(Keys.ESCAPE).send_keys(Keys.ESCAPE).perform()
-        time.sleep(0.2)
+        time.sleep(0.1)
 
         print(f"Открыты ячейки с {lock_start} по {lock_stop}")
 
     click_empty_space(browser)
-    time.sleep(1)
+    time.sleep(0.2)
 
     # Перебор всех перехваченных запросов
     for request in browser.requests:
@@ -68,6 +69,7 @@ def open_lock_some(browser):
             if request.response.status_code not in {200, 101, 201}:
                 error_message = request.response.body.decode('utf-8')
                 print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print()
  #               pytest.fail()
 
 def test_open_lock_some(browser):

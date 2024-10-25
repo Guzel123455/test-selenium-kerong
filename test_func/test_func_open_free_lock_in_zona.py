@@ -15,16 +15,17 @@ def click_empty_space(browser):
     actions.move_by_offset(0, 0).click().perform()
 
 def open_lock_free(browser):
+    print("Test open_lock_free")
     wait = WebDriverWait(browser, 20)
     actions = ActionChains(browser)
 
     # открыть мониторинг
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text() = 'Мониторинг']"))).click()
-    time.sleep(0.2)
+    time.sleep(0.1)
 
     # Открыть зону
     wait.until(EC.element_to_be_clickable((By.XPATH, f"//h2[text() = '{name_zone_text}']"))).click()
-    time.sleep(0.2)
+    time.sleep(0.1)
 
     # количество ячеек
     cells = browser.find_elements(By.CLASS_NAME, 'lock-item-container')
@@ -36,9 +37,9 @@ def open_lock_free(browser):
 
     for l in lock_all:
         try:
-            lock_name_busy = l.find_element(By.XPATH, ".//div[@class='free']").text
+            lock_name_free = l.find_element(By.XPATH, ".//div[@class='free']").text
 
-            if lock_name_busy:
+            if lock_name_free:
                 locks_num += 1
 
                 # Нажимаем Открыть
@@ -67,8 +68,8 @@ def open_lock_free(browser):
         if request.response:
             if request.response.status_code not in {200, 101, 201}:
                 error_message = request.response.body.decode('utf-8')
-                print(
-                    f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print()
  #               pytest.fail()
 
 

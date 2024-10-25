@@ -7,8 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from config import name_zone_text
 from browser_setup import browser
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 
 def click_empty_space(browser):
     actions = ActionChains(browser)
@@ -16,20 +16,23 @@ def click_empty_space(browser):
 
 
 def open_lock_rent(browser):
+    print("Test open_lock_rent")
     wait = WebDriverWait(browser, 20)
     actions = ActionChains(browser)
 
     # открыть мониторинг
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text() = 'Мониторинг']"))).click()
+    time.sleep(0.1)
 
     # Открыть зону
     wait.until(EC.element_to_be_clickable((By.XPATH, f"//h2[text() = '{name_zone_text}']"))).click()
+    time.sleep(0.1)
 
     # количество ячеек
     cells = browser.find_elements(By.CLASS_NAME, 'lock-item-container')
     cell_count = len(cells)
     print(f'Общее количество ячеек: {cell_count}')
-    time.sleep(0.5)
+    time.sleep(0.1)
 
     lock_all = browser.find_elements(By.CLASS_NAME, "lock-item-container")
     locks_num = 0
@@ -76,6 +79,7 @@ def open_lock_rent(browser):
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
                 print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print()
  #               pytest.fail()
 
 

@@ -41,6 +41,7 @@ def authorization(browser):
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@class= 'UIbutton']"))).click()
     time.sleep(0.5)
     print("Успешная авторизация")
+    print()
 
     for request in browser.requests:
         if request.response:
