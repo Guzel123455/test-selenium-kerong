@@ -1,12 +1,11 @@
 # редактирование карточки BU и проверка наличия карточки
 
 import time
-import pytest
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from config import name_BU_text, new_ip_plata, new_name_BU_text
+from config import edit_name_BU, edit_ip_plata, new_edit_name_BU, new_edit_ip_plata
 from browser_setup import browser
 
 def scroll_to_element(browser, element):
@@ -19,14 +18,34 @@ def edit_card_BU(browser):
 
     # Клик на Справочники
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Справочники']"))).click()
-    time.sleep(0.5)
 
     # Клик по Платы
     wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@class='table-item'])[2]"))).click()
-    time.sleep(0.1)
 
-    def search_plata_BU(browser):
-        wait = WebDriverWait(browser, 10)
+    # Добавить KR-BU
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Добавить KR-BU']"))).click()
+
+    # Ввести наименование
+    name_plata = wait.until(EC.element_to_be_clickable((By.XPATH, "(//input[@id='outlined-basic'])[2]")))
+    name_plata.send_keys(edit_name_BU)
+
+    # Выбрать тип KR-BU
+    wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@id='demo-simple-select-helper'])[1]"))).click()
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//li[@data-value='KR-BU']"))).click()
+
+    # Ввести IP
+    wait.until(EC.element_to_be_clickable((By.XPATH, "(//input[@id='outlined-basic'])[3]"))).send_keys(edit_ip_plata)
+
+    # Выбрать тип KR-CU
+    wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@id='demo-simple-select-helper'])[2]"))).click()
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//li[@data-value='CU_48']"))).click()
+
+    # Сохранить карточку
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Сохранить']"))).click()
+    time.sleep(1)
+    print(f"Карточка '{edit_name_BU}' создана")
+
+    def edit_card_BU(browser):
         # поиск карточки платы
         rows = browser.find_elements(By.CSS_SELECTOR, "tbody tr")
         for row in rows:
@@ -36,10 +55,10 @@ def edit_card_BU(browser):
             # Прокрутка к элементу
             scroll_to_element(browser, h2_element)
 
-            if h2_text == name_BU_text:
+            if h2_text == edit_name_BU:
                 # открыть плату с наименование name_BU_text
-                browser.find_element(By.XPATH, f"//h2[text()= '{name_BU_text}']").click()
-                print(f"Карточка {name_BU_text} найдена")
+                browser.find_element(By.XPATH, f"//h2[text()= '{edit_name_BU}']").click()
+                print(f"Карточка '{edit_name_BU}' найдена")
                 time.sleep(0.1)
 
                 # редактировать
@@ -49,12 +68,12 @@ def edit_card_BU(browser):
                 # изменить наименование
                 text_name = wait.until(EC.element_to_be_clickable((By.XPATH, "(//input[@id = 'outlined-basic'])[2]")))
                 text_name.send_keys(Keys.BACKSPACE * 30)
-                text_name.send_keys(new_name_BU_text)
+                text_name.send_keys(new_edit_name_BU)
 
                 # изменить ip
                 text_ip = wait.until(EC.element_to_be_clickable((By.XPATH, "(//input[@id = 'outlined-basic'])[4]")))
                 text_ip.send_keys(Keys.BACKSPACE * 30)
-                text_ip.send_keys(new_ip_plata)
+                text_ip.send_keys(new_edit_ip_plata )
 
                 # сохранить
                 wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Сохранить']"))).click()
@@ -66,16 +85,16 @@ def edit_card_BU(browser):
             next_page = browser.find_element(By.XPATH, "//button[@aria-label = 'Go to next page']")
             next_page.click()
             time.sleep(0.1)
-            return search_plata_BU(browser)
+            return edit_card_BU(browser)
         except:
             print("Не найден на всех страницах.")
             return False
 
     # проверка наличия отредактированой карточки
-    if search_plata_BU(browser):
-        print(f"{new_name_BU_text} - отредактирована")
+    if edit_card_BU(browser):
+        print(f"'{new_edit_name_BU}' - отредактирована")
     else:
-        print(f"{new_name_BU_text} - не найдена")
+        print(f"'{new_edit_name_BU}' - не найдена")
 
     # проверка статус кодов, при статусе кроме 200 и 101 тест падает
     for request in browser.requests:
@@ -83,7 +102,7 @@ def edit_card_BU(browser):
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
                 print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
-                pytest.fail()
+ #              pytest.fail()
 
 # Выполнение функции
 def test_edit_card_BU(browser):

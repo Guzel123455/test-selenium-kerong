@@ -1,11 +1,10 @@
 # Мониторинг. Открыть зону, получить список замков
 
 import time
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from config import name_zone_text
+from config import name_zone_publ
 from browser_setup import browser
 
 def open_monitor(browser):
@@ -14,7 +13,7 @@ def open_monitor(browser):
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text() = 'Мониторинг']"))).click()
 
     # открыть зону
-    wait.until(EC.element_to_be_clickable((By.XPATH, f"//h2[contains(text(), '{name_zone_text}')]"))).click()
+    wait.until(EC.element_to_be_clickable((By.XPATH, f"//h2[contains(text(), '{name_zone_publ}')]"))).click()
 
     # количество ячеек
     cells = browser.find_elements(By.CLASS_NAME, 'lock-item-container')
@@ -37,8 +36,7 @@ def open_monitor(browser):
         if request.response:
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
-                print(
-                    f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
 #                pytest.fail()
 
 def test_open_monitor(browser):

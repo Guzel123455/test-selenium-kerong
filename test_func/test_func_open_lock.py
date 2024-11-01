@@ -1,11 +1,10 @@
 # открыть ячейку со стартовой страници мониторинга
 
 import time
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from config import name_zone_text, start_num_lock, num_from, num_to
+from config import name_zone_publ, start_num_lock, num_from_publ, num_to_publ
 from browser_setup import browser
 
 def open_lock(browser):
@@ -20,8 +19,7 @@ def open_lock(browser):
     # выбрать зону
     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@id = 'demo-simple-select-helper']"))).click()
 
-    z = wait.until(EC.element_to_be_clickable(
-        (By.XPATH, f"//li[contains(text(), '{name_zone_text} [{num_from} - {num_to}]')]")))
+    z = wait.until(EC.element_to_be_clickable((By.XPATH, f"//li[contains(text(), '{name_zone_publ} [{num_from_publ} - {num_to_publ}]')]")))
     browser.execute_script("arguments[0].scrollIntoView(true);", z)
     browser.execute_script("arguments[0].click();", z)
 
@@ -42,8 +40,7 @@ def open_lock(browser):
         if request.response:
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
-                print(
-                    f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+                print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
 #                pytest.fail()
 
 

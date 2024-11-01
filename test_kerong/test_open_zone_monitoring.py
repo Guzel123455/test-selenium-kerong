@@ -5,7 +5,7 @@ from test_kerong.test_authorization import authorization
 from browser_setup import browser
 
 
-def test_open_zone(browser):
+def test_open_monitor(browser):
 
     # авторизация
     authorization(browser)

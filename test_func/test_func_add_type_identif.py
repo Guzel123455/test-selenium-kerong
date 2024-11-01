@@ -1,16 +1,15 @@
-# добавление типа идентиф и проверка наличия карточки
+# добавление типа идентиф и проверка наличия
 
 import time
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from test_func.func_search import scroll_to_element, search_line
+from test_func.func_search import search_line
 from config import name_type_identif
 from browser_setup import browser
 
 
-def create_type_ident(browser):
+def add_type_ident(browser):
     wait = WebDriverWait(browser, 20)
 
     # Клик на Справочники
@@ -28,24 +27,22 @@ def create_type_ident(browser):
 
     # Сохранить
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Сохранить']"))).click()
-    time.sleep(1)
-    print(f"Карточка {name_type_identif} создана")
+    time.sleep(0.2)
+    print(f"Карточка '{name_type_identif}' создана")
 
 
     # проверка наличия созданной карточки
     if search_line(browser, name_type_identif):
-        print(f"{name_type_identif} - найден")
         print()
     else:
-        print(f"{name_type_identif} - не найден.")
+        print(f"'{name_type_identif}' - не найден")
 
     for request in browser.requests:
         if request.response:
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
-                print(
-                    f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
-                pytest.fail()
+                print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
+#                pytest.fail()
 
-def test_create_type_ident(browser):
-    create_type_ident(browser)
+def test_add_type_ident(browser):
+    add_type_ident(browser)

@@ -6,7 +6,7 @@ from test_func.test_func_open_some_lock_in_zona import open_lock_some
 from browser_setup import browser
 
 
-def test_open_lock(browser):
+def test_open_lock_some(browser):
 
     # авторизация
     authorization(browser)

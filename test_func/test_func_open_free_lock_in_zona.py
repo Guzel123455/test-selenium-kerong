@@ -1,11 +1,10 @@
 # Мoниторинг - Зона. Открытие занятых ячеек
 
 import time
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from config import name_zone_text
+from config import name_zone_publ
 from browser_setup import browser
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -24,7 +23,7 @@ def open_lock_free(browser):
     time.sleep(0.1)
 
     # Открыть зону
-    wait.until(EC.element_to_be_clickable((By.XPATH, f"//h2[text() = '{name_zone_text}']"))).click()
+    wait.until(EC.element_to_be_clickable((By.XPATH, f"//h2[text() = '{name_zone_publ}']"))).click()
     time.sleep(0.1)
 
     # количество ячеек

@@ -5,7 +5,7 @@ from test_func.test_func_open_rent_lock_in_zona import open_lock_rent
 from browser_setup import browser
 
 
-def test_open_lock(browser):
+def test_open_lock_rent(browser):
 
     #авторизация
     authorization(browser)

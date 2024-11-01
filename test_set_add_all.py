@@ -1,36 +1,49 @@
 # создание карточки керонг, платы BU, CU, замков, ТИ, идентиф
 
 from test_kerong.test_authorization import authorization
-from test_func.test_func_add_kerong_api import auth_kerong
-from test_func.test_func_add_plata_BU import create_and_check_card_BU
-from test_func.test_func_add_plata_CU import create_and_check_card_CU
-from test_func.test_func_add_zone_publ import create_and_zone
-from test_func.test_func_add_lock import create_and_lock
-from test_func.test_func_add_type_identif import create_type_ident
-from test_func.test_add_func_identif import create_ident
+from test_func.test_func_add_kerong_api import add_kerong
+from test_func.test_func_add_plata_BU import add_card_BU
+from test_func.test_func_add_plata_CU import add_card_CU
+from test_func.test_func_add_zone_publ import add_zone_publ
+from test_func.test_func_add_lock import add_lock
+from test_func.test_func_add_type_identif import add_type_ident
+from test_func.test_func_add_identif import add_ident
+from test_func.test_func_add_client import add_client
 from browser_setup import browser
 
 def test_add_all(browser):
+    print()
     # авторизация
     authorization(browser)
 
     # соединение керонг
-    auth_kerong(browser)
+    add_kerong(browser)
+    print()
 
     # создание BU
-    create_and_check_card_BU(browser)
+    add_card_BU(browser)
+    print()
 
     # создание CU
-    create_and_check_card_CU(browser)
+    add_card_CU(browser)
+    print()
 
     # создание зоны
-    create_and_zone(browser)
+    add_zone_publ(browser)
+    print()
 
     # создание замков
-    create_and_lock(browser)
+    add_lock(browser)
+    print()
 
     # создание типа идентиф
-    create_type_ident(browser)
+    add_type_ident(browser)
+    print()
 
     # создание идентиф
-    create_ident(browser)
+    add_ident(browser)
+    print()
+
+    # добавление клиента
+    add_client(browser)
+    print()

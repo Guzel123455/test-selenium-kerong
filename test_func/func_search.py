@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def scroll_to_element(browser, element):
     # прокрутка к элементу
     browser.execute_script("arguments[0].scrollIntoView(true);", element)
-    time.sleep(0.5)
+    time.sleep(0.1)
 
 
 def search_line(browser, expected_value):
