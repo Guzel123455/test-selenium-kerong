@@ -23,11 +23,16 @@ def search_identif(browser):
     # Клик по идентиф
     wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@class='table-item'])[5]"))).click()
 
+    # данные первого ТИ в списке
+    WebDriverWait(browser, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "tbody tr")))
+    ident = browser.find_element(By.CSS_SELECTOR, "td:nth-child(1) h2")
+    ident_txt = ident.text
+
     # строка поиска
     searc = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@id = 'outlined-basic']")))
-    searc.send_keys(new_edit_identif)
+    searc.send_keys(ident_txt)
     time.sleep(1)
-    print(f"Искомое значение '{new_edit_identif}'")
+    print(f"Искомое значение '{ident_txt}'")
 
 
     WebDriverWait(browser, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "tbody tr")))
@@ -36,7 +41,7 @@ def search_identif(browser):
         h2_element = row.find_element(By.CSS_SELECTOR, "td:nth-child(1) h2")
         h2_text = h2_element.text.strip()
 
-        if h2_text == new_edit_identif:
+        if h2_text == ident_txt:
             print(f"'{h2_text}' найден")
             actions.send_keys(Keys.ESCAPE).send_keys(Keys.ESCAPE).perform()
             return True

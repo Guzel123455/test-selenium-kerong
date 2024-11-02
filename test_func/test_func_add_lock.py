@@ -6,13 +6,13 @@ from selenium.webdriver import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from test_func.func_search import search_line
-from config import name_lock_text, name_BU_text, name_CU_text, name_zone_publ, num_from_publ, num_to_publ, count_lock, star_num_plata, stop_num_plata, count_lock_plata, start_num_lock, stop_num_lock
+from config import name_lock_text, name_BU_text, name_CU_text, name_zone_private, num_from_private, num_to_private, count_lock, star_num_plata, stop_num_plata, count_lock_plata, start_num_lock, stop_num_lock
 from browser_setup import browser
 
 def scroll_to_element(browser, element):
     # Прокрутка страницы
     browser.execute_script("arguments[0].scrollIntoView(true);", element)
-    time.sleep(0.1)
+    time.sleep(0.5)
 
 def add_lock(browser):
     wait = WebDriverWait(browser, 20)
@@ -28,9 +28,9 @@ def add_lock(browser):
 
     # Выбрать зону
     wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@id = 'demo-simple-select-helper'])[1]"))).click()
-    z = wait.until(EC.element_to_be_clickable((By.XPATH, f"//li[contains(text(), '{name_zone_publ} [{num_from_publ}-{num_to_publ}]')]")))
-    browser.execute_script("arguments[0].scrollIntoView(true);", z)
-    z.click()
+    zona = wait.until(EC.element_to_be_clickable((By.XPATH, f"//li[contains(text(), '{name_zone_private} [{num_from_private}-{num_to_private}]')]")))
+    browser.execute_script("arguments[0].scrollIntoView(true);", zona)
+    zona.click()
 
     # Ввести наименование
     name_lock = wait.until(EC.element_to_be_clickable((By.XPATH, "(//input[@id = 'outlined-basic'])[2]")))
@@ -82,6 +82,12 @@ def add_lock(browser):
     wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Сохранить']"))).click()
     time.sleep(1)
     print("Набор замков создан")
+
+    # Получаю текст уведомление
+    text_message = wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id= 'notistack-snackbar']")))
+    text_message_txt = text_message.text
+    print(f"Текст уведомления: {text_message_txt}")
+    time.sleep(0.1)
 
     if search_line(browser, name_lock_text):
         print()

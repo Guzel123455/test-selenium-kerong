@@ -23,11 +23,17 @@ def search_type_identif(browser):
     # Клик по Типы идентиф
     wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@class='table-item'])[4]"))).click()
 
+    # данные первого ТИ в списке
+    WebDriverWait(browser, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "tbody tr")))
+    type = browser.find_element(By.CSS_SELECTOR, "td:nth-child(1) h2")
+    type_txt = type.text
+    print(type_txt)
+
     # строка поиска
     searc = wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@id = 'outlined-basic']")))
-    searc.send_keys(new_edit_type_identif)
+    searc.send_keys(type_txt)
     time.sleep(1)
-    print(f"Искомое значение '{new_edit_type_identif}'")
+    print(f"Искомое значение '{type_txt}'")
 
     WebDriverWait(browser, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "tbody tr")))
     rows = browser.find_elements(By.CSS_SELECTOR, "tbody tr")
@@ -35,7 +41,7 @@ def search_type_identif(browser):
         h2_element = row.find_element(By.CSS_SELECTOR, "td:nth-child(1) h2")
         h2_text = h2_element.text.strip()
 
-        if h2_text == new_edit_type_identif:
+        if h2_text == type_txt:
             print(f"'{h2_text}' найден")
             actions.send_keys(Keys.ESCAPE).send_keys(Keys.ESCAPE).perform()
             return True

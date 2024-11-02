@@ -44,8 +44,8 @@ def add_client(browser):
     # ввести номер телефона
     enter_phone = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@type='tel']")))
     client_number = '9' + ''.join([str(random.randint(0, 9)) for _ in range(9)])
-    enter_phone.send_keys(client_number)
     client_num = "+7" + ''.join(client_number)
+    enter_phone.send_keys(client_num)
     print(client_num)
 
     # ввести дату рождения

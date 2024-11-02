@@ -37,9 +37,7 @@ def delete_locks(browser):
         if request.response:
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
-                print(
-                    f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
-#               pytest.fail()
+                print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
 
 
 def test_delete_locks(browser):

@@ -127,13 +127,11 @@ def filter_zona(browser):
     try:
         WebDriverWait(browser, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, "tbody tr")))
         rows = browser.find_elements(By.CSS_SELECTOR, "tbody tr")
-
         found = False
         for row in rows:
             try:
                 h2_element = row.find_element(By.CSS_SELECTOR, "td:nth-child(2) h2")
                 h2_text3 = h2_element.text.strip()
-
                 if h2_text3 == 'Корпоративный':
                     print(f"{h2_text3} - данный тип платы найден")
                     found = True
@@ -154,6 +152,7 @@ def filter_zona(browser):
 
 def test_filter_zona(browser):
     filter_zona(browser)
+
 
 
 

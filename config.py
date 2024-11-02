@@ -113,8 +113,8 @@ name_identif = "Идентификатор_тест"
 
 # Редактирование идентификатора
 edit_identif = "Идент_тест_новый"
-#new_edit_identif = "Идент_тест_новый_изменен"
-new_edit_identif = "qqqqqq"
+new_edit_identif = "Идент_тест_новый_изменен"
+
 
 #
 

@@ -16,7 +16,7 @@ def search_phone(browser, expected_value):
 
         # Проверяем значение h4
         if h2_phone == expected_value:
-            print("Значение соответствует:", h2_phone)
+            print(f"Найден '{h2_phone}'")
             return True
 
         # Если клиент не найден, пытаемся перейти на следующую страницу
@@ -28,7 +28,7 @@ def search_phone(browser, expected_value):
             # Рекурсивно вызываем функцию для новой страницы
             return search_phone(browser, expected_value)
         except:
-            print("Не найден на всех страницах.")
+            print("Не найден на всех страницах")
             return False
 
 

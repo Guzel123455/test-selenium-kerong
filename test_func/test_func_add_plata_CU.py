@@ -63,7 +63,7 @@ def add_card_CU(browser):
             if request.response.status_code not in {200, 101}:
                 error_message = request.response.body.decode('utf-8')
                 print(f"Ошибка на URL: {request.url} с кодом: {request.response.status_code} Текст ошибки: {error_message}")
- #               pytest.fail()
+
 
     # Выполнение функции
 def test_add_card_CU(browser):
